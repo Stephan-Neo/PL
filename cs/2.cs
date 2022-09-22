@@ -6,6 +6,7 @@ joe.Menu();
 class Main 
 {
 	public int X;
+	public int N;
     public DateTime firstStartDate = new DateTime();
     public DateTime firstEndDate = new DateTime();
     public DateTime secondStartDate = new DateTime();
@@ -35,7 +36,7 @@ class Main
 					break;
 				
 				case 2:
-					Calculate();
+					CalculatePrimeNumber();
 					Menu();
 					break;
                 
@@ -67,7 +68,37 @@ class Main
 		Console.WriteLine(String.Concat(Enumerable.Repeat("-", 20)));
 	}
 
-	public void Calculate()
+	public void CalculateIntersectionDates(DateTime date_1, DateTime date_2, DateTime date_3, DateTime date_4)
+	{
+		if(date_3 >= date_1 && date_4 <= date_2){
+			string ?stringN = Convert.ToString(date_4 - date_3);
+			N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+		}
+		
+		else if(date_3 < date_2 && date_4 <= date_2 | date_3 >= date_1 && date_4 > date_1){
+			if(date_3 < date_2 && date_4 <= date_2){
+				string ?stringN = Convert.ToString(date_4 - date_1);
+				N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+			}
+		
+			else{
+				string ?stringN = Convert.ToString(date_2 - date_3);
+				N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+			}
+		}
+
+		else{
+			if((date_3 > date_2 && date_4 > date_2) | (date_3 < date_1 && date_4 < date_1)){
+				N = 0;
+			}
+			else{
+				string ?stringN = Convert.ToString(date_2 - date_1);
+				N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+			}
+		}
+	}
+
+	public void CalculatePrimeNumber()
 	{
 		Console.Clear();
 		
@@ -76,15 +107,15 @@ class Main
 			string? inputX = Console.ReadLine();
 
 			if(inputX == ""){
-				Error("X != empty string");
+				Error("Error!!! X != empty string");
 			}
 
             else if(Convert.ToInt64(inputX) < 0){
-                Error("X must be a positive number");
+                Error("Error!!! X must be a positive number");
             }
 
 			else if(!int.TryParse(inputX, out int numericValueX)){
-				Error("X must be a number");
+				Error("Error!!! X must be a number");
 			}
 
 			else{
@@ -103,6 +134,7 @@ class Main
         }
         Console.WriteLine($"\n {X} have prime number. YES");
 	}
+
 	public void Exit()
     {
         Environment.Exit(0);
@@ -115,11 +147,11 @@ class Main
 			string? inputDate = Console.ReadLine();
 
 			if(inputDate == ""){
-				Error("date != empty string");
+				Error("Error!!! date != empty string");
 			}
 
             else if(!DateOnly.TryParse(inputDate, out DateOnly dateOnly)){
-                Error("invalid date format");
+                Error("Error!!! invalid date format");
             }
 
 			else{
@@ -135,15 +167,15 @@ class Main
 			string? inputDate = Console.ReadLine();
 
 			if(inputDate == ""){
-				Error("date != empty string");
+				Error("Error!!! date != empty string");
 			}
 
             else if(!DateOnly.TryParse(inputDate, out DateOnly dateOnly)){
-                Error("invalid date format");
+                Error("Error!!! invalid date format");
             }
 
             else if(Convert.ToDateTime(inputDate) <= firstStartDate){
-                Error("Date 2 <= Date 1");
+                Error("Error!!! Date 2 <= Date 1");
             }
 
 			else{
@@ -159,11 +191,11 @@ class Main
 			string? inputDate = Console.ReadLine();
 
 			if(inputDate == ""){
-				Error("date != empty string");
+				Error("Error!!! date != empty string");
 			}
 
             else if(!DateOnly.TryParse(inputDate, out DateOnly dateOnly)){
-                Error("invalid date format");
+                Error("Error!!! invalid date format");
             }
 
 			else{
@@ -179,15 +211,15 @@ class Main
 			string? inputDate = Console.ReadLine();
 
 			if(inputDate == ""){
-				Error("date != empty string");
+				Error("Error!!! date != empty string");
 			}
 
             else if(!DateOnly.TryParse(inputDate, out DateOnly dateOnly)){
-                Error("invalid date format");
+                Error("Error!!! invalid date format");
             }
 
             else if(Convert.ToDateTime(inputDate) <= secondStartDate){
-                Error("Date 4 <= Date 2");
+                Error("Error!!! Error!!! Date 4 <= Date 2");
             }
 
 			else{
@@ -198,6 +230,12 @@ class Main
 
 		} while(true);
 
-        Console.WriteLine($"Date: {firstStartDate}, {firstEndDate}, {secondStartDate}, {secondEndDate}");
+
+		CalculateIntersectionDates(firstStartDate, firstEndDate, secondStartDate, secondEndDate);
+		
+		Console.WriteLine("\n");
+		Console.WriteLine(String.Concat(Enumerable.Repeat("*", 20)));
+        Console.WriteLine($"	N: {N}");
+		Console.WriteLine(String.Concat(Enumerable.Repeat("*", 20)));
     }
 }
