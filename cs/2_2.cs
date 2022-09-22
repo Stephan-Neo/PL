@@ -1,4 +1,4 @@
-Main joe = new Main();
+﻿Main joe = new Main();
 
 Console.Clear();
 joe.Menu();
