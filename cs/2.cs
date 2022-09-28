@@ -1,12 +1,16 @@
 ﻿Main joe = new Main();
 
 Console.Clear();
+joe.formula = "Z/X + 7*sqrt(Y)";
 joe.Menu();
 
 class Main 
 {
-	public int X;
-	public int N;
+	public string formula = "";
+	public double X;
+	public double Y;
+	public double Z;
+	public double N;
     public DateTime firstStartDate = new DateTime();
     public DateTime firstEndDate = new DateTime();
     public DateTime secondStartDate = new DateTime();
@@ -14,7 +18,7 @@ class Main
     
     public void Menu()
     {
-        Console.WriteLine($"\n[0] Exit \n[1] Hello World! \n[2] Calc: checking for a prime number \n[3] Recursion date ");
+        Console.WriteLine($"\n[0] Exit \n[1] Hello World! \n[2] Calc: {formula} \n[3] Recursion date ");
 
 		Console.WriteLine(String.Concat(Enumerable.Repeat("-", 20)));
 		Console.Write("Input action: ");
@@ -36,7 +40,7 @@ class Main
 					break;
 				
 				case 2:
-					CalculatePrimeNumber();
+					Calculate();
 					Menu();
 					break;
                 
@@ -72,18 +76,18 @@ class Main
 	{
 		if(date_3 >= date_1 && date_4 <= date_2){
 			string ?stringN = Convert.ToString(date_4 - date_3);
-			N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+			N = Convert.ToDouble(stringN?.Substring(0, stringN.Length - 9)) + 1;
 		}
 		
 		else if(date_3 < date_2 && date_4 <= date_2 | date_3 >= date_1 && date_4 > date_1){
 			if(date_3 < date_2 && date_4 <= date_2){
 				string ?stringN = Convert.ToString(date_4 - date_1);
-				N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+				N = Convert.ToDouble(stringN?.Substring(0, stringN.Length - 9)) + 1;
 			}
 		
 			else{
 				string ?stringN = Convert.ToString(date_2 - date_3);
-				N = Convert.ToInt16(stringN?.Substring(0, stringN.Length - 9)) + 1;
+				N = Convert.ToDouble(stringN?.Substring(0, stringN.Length - 9)) + 1;
 			}
 		}
 
@@ -101,38 +105,14 @@ class Main
 	public void CalculatePrimeNumber()
 	{
 		Console.Clear();
-		
-		do{
-			Console.Write("\nInput X: ");
-			string? inputX = Console.ReadLine();
 
-			if(inputX == ""){
-				Error("Error!!! X != empty string");
-			}
-
-            else if(Convert.ToInt64(inputX) < 0){
-                Error("Error!!! X must be a positive number");
-            }
-
-			else if(!int.TryParse(inputX, out int numericValueX)){
-				Error("Error!!! X must be a number");
-			}
-
-			else{
-				X = Convert.ToInt16(inputX);
-				break;
-			}
-
-
-		} while(true);
-
-        for (int i = 2; i <= Math.Sqrt(X); i+=1) {
+        for (int i = 2; i <= Math.Sqrt(N); i+=1) {
             if (X % i == 0) {
-                Console.WriteLine($"\n {X} doesn't prime number, since it is divided into {i}. NO");
+                Console.WriteLine($"\n {N} doesn't prime number, since it is divided into {i}. NO");
                 return;
             }
         }
-        Console.WriteLine($"\n {X} have prime number. YES");
+        Console.WriteLine($"\n {N} have prime number. YES");
 	}
 
 	public void Exit()
@@ -232,10 +212,91 @@ class Main
 
 
 		CalculateIntersectionDates(firstStartDate, firstEndDate, secondStartDate, secondEndDate);
+		CalculatePrimeNumber();
 		
 		Console.WriteLine("\n");
 		Console.WriteLine(String.Concat(Enumerable.Repeat("*", 20)));
         Console.WriteLine($"	N: {N}");
 		Console.WriteLine(String.Concat(Enumerable.Repeat("*", 20)));
     }
+
+	public void Calculate()
+	{
+		Console.Clear();
+		
+		do{
+			Console.WriteLine($"\nFormula: {formula}");
+			Console.Write("\nInput X: ");
+			string? inputX = Console.ReadLine();
+
+			if(inputX == ""){
+				Error("X != empty string");
+			}
+
+			else if(inputX == "0"){
+				Error("X dont = 0");
+			}
+
+			else if(!double.TryParse(inputX, out double numericValueX)){
+				Error("X must be a number");
+			}
+
+			else{
+				X = Convert.ToDouble(inputX);
+				break;
+			}
+
+
+		} while(true);
+
+		do{
+			Console.WriteLine($"\nFormula: {formula}");
+			Console.Write("\nInput Y: ");
+			string? inputY = Console.ReadLine();
+
+			if(inputY == ""){
+				Error("Y != empty string");
+			}
+
+			else if(!double.TryParse(inputY, out double numericValueY)){
+				Error("Y must be a number");
+			}
+
+			else if(Convert.ToDouble(inputY) <= 0){
+				Error("Y dont < 0");
+			}
+
+			else{
+				Y = Convert.ToDouble(inputY);
+				break;
+			}
+
+
+		} while(true);
+
+		do{
+			Console.WriteLine($"\nFormula: {formula}");
+			Console.Write("\nInput Z: ");
+			string? inputZ = Console.ReadLine();
+
+			if(inputZ == ""){
+				Error("Z != empty string");
+			}
+
+			else if(!double.TryParse(inputZ, out double numericValueZ)){
+				Error("Z must be a number");
+			}
+
+			else{
+				Z = Convert.ToDouble(inputZ);
+				break;
+			}
+
+
+		} while(true);
+
+		double rezult = (Z / X) + (7 * Math.Sqrt(Y)); 
+		double rezultRound = Math.Round(rezult, 3, MidpointRounding.ToEven);
+		Console.WriteLine($"\nRezult: {rezultRound}");
+	}
 }
